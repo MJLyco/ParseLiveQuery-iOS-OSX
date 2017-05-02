@@ -136,7 +136,7 @@ extension Client: WebSocketDelegate {
 
     public func websocketDidDisconnect(socket: WebSocket, error: NSError?) {
         isConnecting = false
-        NSLog("ParseLiveQuery: WebSocket did disconnect with error: \(error)")
+        NSLog("ParseLiveQuery: WebSocket did disconnect with error: \(error?.debugDescription ?? "unknown")")
 
         // TODO: Better retry logic, unless `disconnect()` was explicitly called
         if !userDisconnected {
@@ -146,7 +146,7 @@ extension Client: WebSocketDelegate {
 
     public func webSocket(_ webSocket: WebSocket, didCloseWithCode code: Int, reason: String?, wasClean: Bool) {
         isConnecting = false
-        NSLog("ParseLiveQuery: WebSocket did close with code: \(code) reason: \(reason)")
+        NSLog("ParseLiveQuery: WebSocket did close with code: \(code) reason: \(reason ?? "unknown")")
 
         // TODO: Better retry logic, unless `disconnect()` was explicitly called
         if !userDisconnected {
@@ -243,7 +243,7 @@ extension Client {
             case .unsubscribed(let requestId):
                 guard
                     let recordIndex = self.subscriptions.index(where: { $0.requestId == requestId })
-                     else {
+                    else {
                         break
                 }
                 let record: SubscriptionRecord = self.subscriptions[recordIndex]
