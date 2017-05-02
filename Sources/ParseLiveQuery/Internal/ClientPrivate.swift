@@ -129,11 +129,13 @@ extension Client: WebSocketDelegate {
     }
 
     public func websocketDidConnect(socket: WebSocket) {
+        isConnecting = false
         let sessionToken = PFUser.current()?.sessionToken ?? ""
         _ = self.sendOperationAsync(.connect(applicationId: applicationId, sessionToken: sessionToken))
     }
 
     public func websocketDidDisconnect(socket: WebSocket, error: NSError?) {
+        isConnecting = false
         NSLog("ParseLiveQuery: WebSocket did disconnect with error: \(error)")
 
         // TODO: Better retry logic, unless `disconnect()` was explicitly called
@@ -143,6 +145,7 @@ extension Client: WebSocketDelegate {
     }
 
     public func webSocket(_ webSocket: WebSocket, didCloseWithCode code: Int, reason: String?, wasClean: Bool) {
+        isConnecting = false
         NSLog("ParseLiveQuery: WebSocket did close with code: \(code) reason: \(reason)")
 
         // TODO: Better retry logic, unless `disconnect()` was explicitly called
