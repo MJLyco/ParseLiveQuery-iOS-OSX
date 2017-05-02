@@ -62,7 +62,7 @@ public protocol ObjCCompat_SubscriptionHandling {
     optional func didUnsubscribe(_ query: PFQuery<PFObject>, client: Client)
 }
 
-// HACK: Compiler bug causes enums that are declared in structs that are marked as @objc to not actually be emitted by 
+// HACK: Compiler bug causes enums that are declared in structs that are marked as @objc to not actually be emitted by
 // the compiler (lolwut?). Moving this to global scope fixes the problem, but we can't change the objc name of an enum
 // either, so we pollute the swift namespace here.
 // TODO: Fix this eventually.
@@ -326,7 +326,7 @@ extension Client {
     }
 }
 
-// HACK: Another compiler bug - if you have a required initializer with a generic type, the compiler simply refuses to 
+// HACK: Another compiler bug - if you have a required initializer with a generic type, the compiler simply refuses to
 // emit the entire class altogether. Moving this to an extension for now solves the issue.
 
 extension ObjCCompat.Event {
